@@ -9,7 +9,6 @@ import org.springframework.social.facebook.api.User;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-import com.foo.login.controller.LoginController;
 import com.foo.login.model.UserBean;
 
 
@@ -40,6 +39,7 @@ public class FacebookProvider  {
 			 // Save the details in DB
 			 baseProvider.saveUserDetails(userForm);
 			 
+				LOG.error("*****: getFacebookUserData: autolog: " + userForm.toString());
 			 // Login the User
 			 baseProvider.autoLoginUser(userForm);
 			 
@@ -60,6 +60,9 @@ public class FacebookProvider  {
 		userForm.setEmail(user.getEmail());
 		userForm.setFirstName(user.getFirstName());
 		userForm.setLastName(user.getLastName());
+		// Dummy passwd
+		userForm.setPassword("nimda");
+		userForm.setPasswordConfirm("nimda");
 		userForm.setProvider(FACEBOOK);
 	}
 

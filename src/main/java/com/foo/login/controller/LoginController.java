@@ -74,15 +74,6 @@ public class LoginController {
 		return "registration";
 	}
 	
-	@ModelAttribute("loggedInUser")
-    public void secure(Model model) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		UserBean user = userRepository.findByEmail(auth.getName());
-		LOG.error("************************************************************************");
-		LOG.error("*****: secure: auth name {}, {}", (auth != null ? auth.getName() : "null"), (user != null ? user.getEmail() : "null"));
-		model.addAttribute("loggedInUser", user);
-    }
-
     @PostMapping("/registration")
     public String registerUser(HttpServletResponse httpServletResponse, Model model, @Valid UserBean userBean, BindingResult bindingResult) {
     	if (bindingResult.hasErrors()) {
@@ -93,9 +84,10 @@ public class LoginController {
     	if (StringUtils.isNotEmpty(userBean.getPassword())) {
     		userBean.setPassword(bCryptPasswordEncoder.encode(userBean.getPassword()));
     	}
+    	LOG.error("registerUser: " + userBean.toString());
     	userRepository.save(userBean);
  
-    	autologin.setSecuritycontext(userBean);
+    	autologin.setSecurityContext(userBean);
  
     	model.addAttribute("loggedInUser", userBean);
     	return "secure/user";

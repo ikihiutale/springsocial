@@ -102,4 +102,11 @@ public class UserBean implements Serializable {
 	public void setProvider(String provider) {
 		this.provider = provider;
 	}
+
+	@Override
+	public String toString() {
+		return "UserBean [email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", title=" + title
+				+ ", country=" + country + ", password=" + password + ", provider=" + provider + "]";
+	}
+	
 }
